@@ -11,6 +11,7 @@ type TProps = {
   data: string;
   price: number;
   desc: string[];
+  onBuyClick: () => void;
 };
 
 export default function MediaCard(props: TProps) {
@@ -24,7 +25,8 @@ export default function MediaCard(props: TProps) {
         flexDirection: "column",
         justifyContent: "space-between",
         p: 1,
-        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        boxShadow:
+          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
       }}
     >
       <CardContent>
@@ -56,7 +58,12 @@ export default function MediaCard(props: TProps) {
         {props.desc.map((item, index) => {
           return (
             <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1, color: "#5D87FF" }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                color: "#5D87FF",
+              }}
               key={index}
             >
               <CheckIcon />
@@ -69,6 +76,7 @@ export default function MediaCard(props: TProps) {
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "center" }}>
         <Button
+          // type="submit"
           variant="contained"
           fullWidth
           size="small"
@@ -78,6 +86,7 @@ export default function MediaCard(props: TProps) {
             fontWeight: "bold",
             bgcolor: "#5D87FF",
           }}
+          onClick={props.onBuyClick}
         >
           Bali Sekarang!
         </Button>

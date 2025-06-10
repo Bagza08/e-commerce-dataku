@@ -1,47 +1,45 @@
 import MediaCard from "@/components/card";
 import ResponsiveAppBar from "@/components/navbar";
+import { useTransactions } from "@/hooks/transactions";
+import { TTransactions } from "@/lib/transactions";
 import { Grid, Typography } from "@mui/material";
-import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Image from "next/image";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
-// import { Geist, Geist_Mono } from "next/font/google";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({x
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 const gradient = "linear-gradient(to right, #5D87FF, #A55DFF)";
 
-type TProps = {
+
+
+type TPropspaket = {
+  id: number;
   name: string;
-  data: string;
+  package: string;
   price: number;
   desc: string[];
 };
 
-const paketData: TProps[] = [
+const paketData: TPropspaket[] = [
   {
+    id: 1,
     name: "Paket 1",
-    data: "20 GB",
+    package: "20 GB",
     price: 500000,
     desc: ["paket 1", "paket 2", "paket 3"],
   },
   {
+    id: 2,
     name: "Paket 2",
-    data: "50 GB",
+    package: "50 GB",
     price: 700000,
     desc: ["paket 1", "paket 2", "paket 3"],
   },
   {
+    id: 3,
     name: "Paket 3",
-    data: "100 GB",
+    package: "100 GB",
     price: 800000,
     desc: ["paket 1", "paket 2", "paket 3"],
   },
@@ -51,6 +49,52 @@ export default function Home() {
   useEffect(() => {
     AOS.init();
   }, []);
+
+  const { query: queryTransaction, create: createTransaction } =
+    useTransactions();
+
+  const longData = queryTransaction?.data?.length + 1;
+
+  const handleBuyClick = (data: TPropspaket) => {
+    if (!localStorage.getItem("user")) {
+      Swal.fire({
+        icon: "error",
+        title: "Gagal!",
+        text: "Anda Belum Login, Silakan Login Terlebih Dahulu untuk membeli paket ini",
+        confirmButtonColor: "#d33",
+      });
+    } else {
+      Swal.fire({
+        title: "Apakah kamu yakin ingin membeli paket ini?",
+        showCancelButton: true,
+        confirmButtonText: "Iya, saya yakin",
+      }).then((result) => {
+        const idCustomer = localStorage.getItem("userID");
+
+        const fullDateString = new Date().toISOString(); // e.g., "2025-06-10T11:52:35.000Z"
+        const dateOnly = fullDateString.substring(0, 10);
+
+        const dataSubmit: TTransactions = {
+          id: longData,
+          customerId: Number(idCustomer),
+          name: data.name,
+          package: data.package,
+          price: data.price,
+          date: dateOnly,
+        };
+
+        createTransaction.mutate(dataSubmit);
+
+        console.log("Buy clicked", dataSubmit);
+
+        if (result.isConfirmed) {
+          Swal.fire("Selamat Paket ini sudah berhasil di beli!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+    }
+  };
 
   return (
     <Grid container sx={{ height: "1000px" }}>
@@ -152,8 +196,9 @@ export default function Home() {
             alignItems: "center",
             justifyContent: "center",
           }}
+          component={"form"}
         >
-          {paketData.map((item, index) => {
+          {paketData?.map((item, index) => {
             return (
               <Grid
                 key={index}
@@ -163,9 +208,10 @@ export default function Home() {
               >
                 <MediaCard
                   name={item.name}
-                  data={item.data}
+                  data={item.package}
                   price={item.price}
                   desc={item.desc}
+                  onBuyClick={() => handleBuyClick(item)}
                 />
               </Grid>
             );
