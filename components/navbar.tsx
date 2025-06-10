@@ -23,6 +23,7 @@ const settings = [
     name: "Logout",
     link: () => {
       localStorage.removeItem("user");
+      localStorage.removeItem("userID");
       Swal.fire({
         icon: "success",
         title: "Berhasil!",

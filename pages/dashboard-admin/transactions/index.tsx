@@ -1,20 +1,20 @@
+import { useTransactions } from "@/hooks/transactions";
+import { TTransactions } from "@/lib/transactions";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import GroupIcon from "@mui/icons-material/Group";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PaidIcon from "@mui/icons-material/Paid";
 import { Avatar, Badge, Box, Button, Grid, Typography } from "@mui/material";
-import { Montserrat } from "next/font/google";
-import * as React from "react";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { useCustomers } from "@/hooks/customers";
-import { TCustomer } from "@/lib/customers";
+import { Montserrat } from "next/font/google";
 import { useRouter } from "next/router";
+import * as React from "react";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 const blueFont = "#5D87FF";
@@ -39,14 +39,14 @@ export default function DashboardAdmin() {
     // Cek apakah ada data 'user' di localStorage
     const user = localStorage.getItem("user");
 
-    if (!user) {
-      // Jika 'user' ada, berarti sudah login, arahkan ke dashboard
-      // alert("Anda sudah login!"); // Memberikan notifikasi
-      router.replace("/login"); // Menggunakan replace agar halaman login tidak ada di history browser
+    if (user !== "bagza@mail.com") {
+      router.replace("/");
+    } else if (!user) {
+      router.replace("/login");
     }
   }, [router]);
 
-  const { query } = useCustomers();
+  const { query } = useTransactions();
 
   return (
     <Grid container sx={{ height: "100vh" }}>
@@ -145,31 +145,41 @@ export default function DashboardAdmin() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow sx={{ bgcolor: blueFont }}>
-                  <TableCell align="right" sx={{ color: "white" }}>
+                  <TableCell align="center" sx={{ color: "white" }}>
                     ID
                   </TableCell>
                   <TableCell sx={{ color: "white" }}>Nama</TableCell>
-                  <TableCell sx={{ color: "white" }} align="right">
-                    No Telp
+                  <TableCell sx={{ color: "white" }} align="center">
+                    Harga
                   </TableCell>
-                  <TableCell sx={{ color: "white" }} align="right">
-                    Email
+                  <TableCell sx={{ color: "white" }} align="center">
+                    ID pembeli
+                  </TableCell>
+                  <TableCell sx={{ color: "white" }} align="center">
+                    package
+                  </TableCell>
+                  <TableCell sx={{ color: "white" }} align="center">
+                    date
                   </TableCell>
                   {/* <TableCell align="right"></TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {query?.data?.map((row: TCustomer, index: number) => (
+                {query?.data?.map((row: TTransactions, index: number) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="right">{row.id}</TableCell>
+                    <TableCell align="center">{row.id}</TableCell>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.no_hp}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="center">{row.price}</TableCell>
+                    <TableCell component="th" align="center" scope="row">
+                      {row.customerId}
+                    </TableCell>
+                    <TableCell align="center">{row.package}</TableCell>
+                    <TableCell align="center">{row.date}</TableCell>
                     {/* <TableCell align="right">{row.protein}</TableCell> */}
                   </TableRow>
                 ))}

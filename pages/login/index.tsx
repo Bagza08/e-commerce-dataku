@@ -14,7 +14,7 @@ import { useCustomers } from "@/hooks/customers";
 import { TCustomer } from "@/lib/customers";
 
 const loginSchema = z.object({
-  id: z.number(),
+  // id: z.number(),
   email: z.string().email("Email tidak valid"),
   password: z.string().min(6, "Password minimal 6 karakter"),
 });
@@ -39,18 +39,26 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  console.log("e", errors);
   console.log("email", watch("email"));
   console.log(" password", watch("password"));
 
   const onSubmit = async (data: LoginForm) => {
     const dataSubmit = {
+      // id: data.id,
       email: data.email,
       password: data.password,
     };
 
-    if (dataSubmit.email === "bagza@mail.com") {
-      localStorage.setItem("user", data.email);
-      localStorage.setItem("userID", data.id.toString());
+    console.log("dataSubmit", dataSubmit);
+
+    const foundCustomer = query.data.find(
+      (item: TCustomer) => item.email === data.email
+    );
+
+    if (dataSubmit?.email === "bagza@mail.com") {
+      localStorage.setItem("user", dataSubmit?.email);
+      localStorage.setItem("userID", foundCustomer.id.toString());
       await Swal.fire({
         icon: "success",
         title: "Berhasil!",
@@ -58,9 +66,7 @@ export default function LoginPage() {
         confirmButtonColor: "#5D87FF",
       });
       router.push("/dashboard-admin/customers");
-    } else if (
-      dataSubmit.email === query.data.map((item: TCustomer) => item.email)
-    ) {
+    } else if (dataSubmit.email === foundCustomer?.email) {
       localStorage.setItem("user", data.email);
       await Swal.fire({
         icon: "success",

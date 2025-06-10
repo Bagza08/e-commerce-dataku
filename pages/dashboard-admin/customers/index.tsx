@@ -15,6 +15,8 @@ import Paper from "@mui/material/Paper";
 import { useCustomers } from "@/hooks/customers";
 import { TCustomer } from "@/lib/customers";
 import { useRouter } from "next/router";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 // import Swal from "sweetalert2";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -41,7 +43,7 @@ export default function DashboardAdmin() {
     const user = localStorage.getItem("user");
 
     if (!user) {
-      router.replace("/login"); 
+      router.replace("/login");
     }
   }, [router]);
 
@@ -62,8 +64,12 @@ export default function DashboardAdmin() {
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <AllInboxIcon sx={{ color: blueFont, fontSize: "45px" }} />
           <Typography
+            onClick={() => {
+              window.location.href = "/";
+            }}
             variant="h4"
             sx={{
+              cursor: "pointer",
               color: blueFont,
               fontWeight: "bold",
               fontFamily: montserrat.style,
@@ -154,7 +160,9 @@ export default function DashboardAdmin() {
                   <TableCell sx={{ color: "white" }} align="right">
                     Email
                   </TableCell>
-                  {/* <TableCell align="right"></TableCell> */}
+                  <TableCell sx={{ color: "white" }} align="right">
+                    Action
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -169,7 +177,13 @@ export default function DashboardAdmin() {
                     </TableCell>
                     <TableCell align="right">{row.no_hp}</TableCell>
                     <TableCell align="right">{row.email}</TableCell>
-                    {/* <TableCell align="right">{row.protein}</TableCell> */}
+                    <TableCell
+                      align="right"
+                      sx={{ display: "flex", gap: "10px" }}
+                    >
+                      <DeleteIcon sx={{ color: "red", fontSize: "20px" }} />
+                      <EditIcon sx={{ color: "blue", fontSize: "20px" }} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

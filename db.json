@@ -29,11 +29,18 @@
       "password": "Aa@!234567"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "aaaa",
       "no_hp": "23423423423423423423",
       "email": "aaa@gmail.com",
       "password": "sdfsfsdfsdf"
+    },
+    {
+      "id": 6,
+      "name": "asdasdasdsdasdas",
+      "no_hp": "23423423423423423423",
+      "email": "Metodo@gmail.com",
+      "password": "Password@123"
     }
   ],
   "transactions": [
@@ -46,27 +53,19 @@
       "date": "2025-06-09"
     },
     {
-      "id": 2,
-      "customerId": 0,
-      "name": "Paket 2",
-      "package": "50 GB",
-      "price": 700000,
-      "date": "2025-06-10T16:50:30.546Z"
-    },
-    {
-      "id": 3,
-      "customerId": 0,
-      "name": "Paket 2",
-      "package": "50 GB",
-      "price": 700000,
-      "date": "2025-06-10T16:51:59.777Z"
-    },
-    {
-      "id": 4,
+      "id": "2",
       "customerId": 0,
       "name": "Paket 1",
       "package": "20 GB",
       "price": 500000,
+      "date": "2025-06-10"
+    },
+    {
+      "id": 3,
+      "customerId": 1,
+      "name": "Paket 3",
+      "package": "100 GB",
+      "price": 800000,
       "date": "2025-06-10"
     }
   ]
