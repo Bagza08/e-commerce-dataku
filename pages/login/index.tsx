@@ -34,14 +34,14 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    // watch,
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   });
 
-  console.log("e", errors);
-  console.log("email", watch("email"));
-  console.log(" password", watch("password"));
+  // console.log("e", errors);
+  // console.log("email", watch("email"));
+  // console.log(" password", watch("password"));
 
   const onSubmit = async (data: LoginForm) => {
     const dataSubmit = {
@@ -204,6 +204,7 @@ export default function LoginPage() {
             <TextField
               label="password"
               fullWidth
+              type="password"
               {...register("password")}
               error={!!errors.password}
               helperText={errors.password?.message}

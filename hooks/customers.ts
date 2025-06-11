@@ -23,7 +23,7 @@ export const useCustomers = () => {
   });
 
   const update = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: TCustomer }) =>
+    mutationFn: ({ id, data }: { id: number; data: TCustomer }) =>
       updateCustomer(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });

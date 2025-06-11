@@ -22,15 +22,24 @@ const settings = [
   {
     name: "Logout",
     link: () => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("userID");
       Swal.fire({
-        icon: "success",
-        title: "Berhasil!",
-        text: "Registrasi berhasil!",
-        confirmButtonColor: "#5D87FF",
+        title: `Apakah kamu yakin ingin logout?`,
+        showCancelButton: true,
+        confirmButtonText: "Iya, saya yakin",
+        confirmButtonColor: "#d32f2f",
+        cancelButtonColor: "#9e9e9e",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem("user");
+          localStorage.removeItem("userID");
+
+          Swal.fire("Logout Berhasil", "", "success");
+
+          window.location.href = "/login";
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
       });
-      window.location.href = "/login";
     },
   },
 ];

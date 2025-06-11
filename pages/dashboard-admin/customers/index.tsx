@@ -17,6 +17,8 @@ import { TCustomer } from "@/lib/customers";
 import { useRouter } from "next/router";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Swal from "sweetalert2";
+import CustomizedDialogs from "@/components/modal";
 // import Swal from "sweetalert2";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -38,6 +40,19 @@ const items = [
 export default function DashboardAdmin() {
   const router = useRouter();
 
+  const [open, setOpen] = React.useState(false);
+  const [selectedCustomer, setSelectedCustomer] =
+    React.useState<TCustomer | null>(null);
+
+  const handleClickOpen = (customer: TCustomer) => {
+    setSelectedCustomer(customer);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   React.useEffect(() => {
     // Cek apakah ada data 'user' di localStorage
     const user = localStorage.getItem("user");
@@ -47,7 +62,25 @@ export default function DashboardAdmin() {
     }
   }, [router]);
 
-  const { query } = useCustomers();
+  const { query, remove } = useCustomers();
+
+  const handleRemove = (id: string, name: string) => {
+    Swal.fire({
+      title: `Apakah kamu yakin ingin menghapus ${name} ini?`,
+      showCancelButton: true,
+      confirmButtonText: "Iya, saya yakin",
+      confirmButtonColor: "#d32f2f",
+      cancelButtonColor: "#9e9e9e",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        remove.mutate(id);
+
+        Swal.fire("Data berhasil dihapus", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
 
   return (
     <Grid container sx={{ height: "100vh" }}>
@@ -181,8 +214,24 @@ export default function DashboardAdmin() {
                       align="right"
                       sx={{ display: "flex", gap: "10px" }}
                     >
-                      <DeleteIcon sx={{ color: "red", fontSize: "20px" }} />
-                      <EditIcon sx={{ color: "blue", fontSize: "20px" }} />
+                      <DeleteIcon
+                        sx={{
+                          color: "red",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() =>
+                          handleRemove(row.id.toLocaleString(), row.name)
+                        }
+                      />
+                      <EditIcon
+                        onClick={() => handleClickOpen(row)}
+                        sx={{
+                          color: "blue",
+                          fontSize: "20px",
+                          cursor: "pointer",
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -191,6 +240,14 @@ export default function DashboardAdmin() {
           </TableContainer>
         </Grid>
       </Grid>
+      {selectedCustomer && (
+        <CustomizedDialogs
+          open={open}
+          handleClose={handleClose}
+          handleClickOpen={handleClickOpen}
+          customer={selectedCustomer}
+        />
+      )}
     </Grid>
   );
 }

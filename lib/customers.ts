@@ -21,8 +21,8 @@ export const createCustomer = async (data: TCustomer) => {
 };
 
 // UPDATE
-export const updateCustomer = async (id: string, data: TCustomer) => {
-  const res = await API.put(`/customers/${id}`, data);
+export const updateCustomer = async (id: number, data: TCustomer) => {
+  const res = await API.patch(`/customers/${id}`, data);
   return res.data;
 };
 

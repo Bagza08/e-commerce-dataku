@@ -1,46 +1,39 @@
 {
   "customers": [
     {
-      "id": "1",
-      "name": "Bagza",
-      "no_hp": "0909090909",
-      "email": "bagza@mail.com",
-      "password": "password123"
-    },
-    {
       "id": "2",
-      "name": "Master Data",
+      "name": "Master Data asdasdasdasd",
       "no_hp": "23423423423423423423",
       "email": "xadir56401@jzexport.com",
       "password": "Password@123"
     },
     {
       "id": "3",
-      "name": "Master Data",
+      "name": "yoyoyo",
       "no_hp": "23423423423423423423",
       "email": "xadir56401@jzexport.com",
       "password": "Password@123"
     },
     {
-      "id": "4",
-      "name": "Master Data",
-      "no_hp": "23423423423423423423",
-      "email": "dogogov341@agromgt.com",
-      "password": "Aa@!234567"
-    },
-    {
       "id": "5",
-      "name": "aaaa",
+      "name": "baru banget edit",
       "no_hp": "23423423423423423423",
       "email": "aaa@gmail.com",
       "password": "sdfsfsdfsdf"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "asdasdasdsdasdas",
       "no_hp": "23423423423423423423",
       "email": "Metodo@gmail.com",
       "password": "Password@123"
+    },
+    {
+      "id": 6,
+      "name": "admin",
+      "no_hp": "087656543477777",
+      "email": "bagza@mail.com",
+      "password": "Password123"
     }
   ],
   "transactions": [
@@ -61,12 +54,20 @@
       "date": "2025-06-10"
     },
     {
-      "id": 3,
+      "id": "3",
       "customerId": 1,
       "name": "Paket 3",
       "package": "100 GB",
       "price": 800000,
       "date": "2025-06-10"
+    },
+    {
+      "id": 4,
+      "customerId": 1,
+      "name": "Paket 1",
+      "package": "20 GB",
+      "price": 500000,
+      "date": "2025-06-11"
     }
   ]
 }

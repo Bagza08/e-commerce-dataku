@@ -11,8 +11,6 @@ import Swal from "sweetalert2";
 
 const gradient = "linear-gradient(to right, #5D87FF, #A55DFF)";
 
-
-
 type TPropspaket = {
   id: number;
   name: string;
@@ -50,6 +48,8 @@ export default function Home() {
     AOS.init();
   }, []);
 
+  
+
   const { query: queryTransaction, create: createTransaction } =
     useTransactions();
 
@@ -68,26 +68,27 @@ export default function Home() {
         title: "Apakah kamu yakin ingin membeli paket ini?",
         showCancelButton: true,
         confirmButtonText: "Iya, saya yakin",
+        confirmButtonColor: "#d32f2f",
+        cancelButtonColor: "#9e9e9e",
       }).then((result) => {
-        const idCustomer = localStorage.getItem("userID");
-
-        const fullDateString = new Date().toISOString(); // e.g., "2025-06-10T11:52:35.000Z"
-        const dateOnly = fullDateString.substring(0, 10);
-
-        const dataSubmit: TTransactions = {
-          id: longData,
-          customerId: Number(idCustomer),
-          name: data.name,
-          package: data.package,
-          price: data.price,
-          date: dateOnly,
-        };
-
-        createTransaction.mutate(dataSubmit);
-
-        console.log("Buy clicked", dataSubmit);
-
         if (result.isConfirmed) {
+          const idCustomer = localStorage.getItem("userID");
+
+          const fullDateString = new Date().toISOString(); // e.g., "2025-06-10T11:52:35.000Z"
+          const dateOnly = fullDateString.substring(0, 10);
+
+          const dataSubmit: TTransactions = {
+            id: longData,
+            customerId: Number(idCustomer),
+            name: data.name,
+            package: data.package,
+            price: data.price,
+            date: dateOnly,
+          };
+
+          createTransaction.mutate(dataSubmit);
+
+          console.log("Buy clicked", dataSubmit);
           Swal.fire("Selamat Paket ini sudah berhasil di beli!", "", "success");
         } else if (result.isDenied) {
           Swal.fire("Changes are not saved", "", "info");
